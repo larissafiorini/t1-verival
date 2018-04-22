@@ -64,6 +64,6 @@ public class ScoresBuggedImpl implements Scores {
 
 	/** Returns the number of scores currently stored on the collection */
 	public int getNumElements() {
-		return (numEntries - 1);
+		return (numEntries);
 	}
 }
