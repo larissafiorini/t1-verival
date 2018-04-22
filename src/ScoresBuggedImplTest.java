@@ -35,35 +35,55 @@ public class ScoresBuggedImplTest {
 		// Inicializou com 4, add mais 1
 		gameEntry = new GameEntry("Gabriel",9);
 		success = scoreBugged.add(gameEntry);
-		assertTrue(success);
+		assertTrue("Quinto elemento adicionado: ", success);
 
 		// Adiciona o maior scores
 		gameEntry = new GameEntry("Maria",20);
 		success = scoreBugged.add(gameEntry);
-		assertTrue(success);
-
+		assertTrue("Maior elemento adicionado: ", success);
+		
 		// Não adiciona o menor scores
 		gameEntry = new GameEntry("André Balada",2);
 		success = scoreBugged.add(gameEntry);
-		assertFalse(success);
+		assertFalse("Menor scores não deve ser adicionado: ",success);
 	}
-
+	
 	@Test
 	public void testRemove() {
-		fail("Not yet implemented");
+		int numElements = scoreBugged.getNumElements();
+		int firstElementIndex = 0;
+
+		GameEntry firstRemoved = scoreBugged.remove(firstElementIndex);
+		assertNotNull("Objeto removido não deve ser nulo: ", firstRemoved);
+		assertEquals("Tamanho da lista deve diminuir: ", numElements-1, scoreBugged.getNumElements());
 	}
 
+	@Test(expected=IndexOutOfBoundsException.class)
+	public void testRemoveNegativeNumber() {
+		scoreBugged.remove(-1);
+	}
+
+	@Test(expected=IndexOutOfBoundsException.class)
+	public void testRemoveGreaterThanEntries() {
+		int bigger = scoreBugged.getNumElements()+1;
+		scoreBugged.remove(bigger);
+	}
+	
 	@Test
 	public void testGetCapacity() {
 		int capacity = scoreBugged.getCapacity();
+		int unexpected;
 
 		assertNotNull("Capacidade da lista não deve ser nulo: ", capacity);
 
 		int expected = 5;
 		assertEquals("Capacidade da lista deve ser 5: ", expected, capacity);
 
-		int unexpected = 4;
+		unexpected = 4;
 		assertNotEquals("Capacidade da lista deve ser diferente de 4: ", unexpected, capacity);
+
+		unexpected = 6;
+		assertNotEquals("Capacidade da lista deve ser diferente de 6: ", unexpected, capacity);
 	}
 
 	@Test
@@ -78,13 +98,13 @@ public class ScoresBuggedImplTest {
 		scoreBugged.add(new GameEntry("Marcelo Grohe",20));
 		expected = 5;
 		elements = scoreBugged.getNumElements();
-		assertEquals("Deve ter 5 elementos: ", expected, elements);
+		assertEquals("Após adicionar um, deve ter 5 elementos: ", expected, elements);
 
 		// Adiciona mais um
 		scoreBugged.add(new GameEntry("Jael",9));
 		expected = 5;
 		elements = scoreBugged.getNumElements();
-		assertEquals("Após adicionar outro, deve continuar com 5 elementos: ", expected, elements);
+		assertEquals("Após adicionar dois, deve continuar com 5 elementos: ", expected, elements);
 	}
 
 }

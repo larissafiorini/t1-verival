@@ -47,8 +47,7 @@ public class ScoresBuggedImpl implements Scores {
 	public GameEntry remove(int i) throws IndexOutOfBoundsException {
 		if ((i < 0) || (i > numEntries))
 			throw new IndexOutOfBoundsException("Invalid index: " + i);
-		GameEntry temp = entries[i]; // temporarily save the object to be
-										// removed
+		GameEntry temp = entries[i]; // temporarily save the object to be removed
 		for (int j = i; j < numEntries - 1; j++)
 			// count up from i (not down)
 			entries[j] = entries[j + 1]; // move one cell to the left
