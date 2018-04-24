@@ -27,33 +27,37 @@ public class ScoresBuggedImpl implements Scores {
 	/** Attempt to add a new score to the collection (if it is high enough) */
 	public boolean add(GameEntry e) {
 		int newScore = e.getScore();
+
 		// is the new entry e really a high score?
 		if (numEntries == maxEntries) { // the array is full
-			if (newScore < entries[numEntries - 1].getScore())
-				return false; // the new entry, e, is not a high score in this
-								// case
-		} else
-			// the array is not full
-			numEntries++;
+			if (newScore < entries[0].getScore())
+				return false; // the new entry, e, is not a high score in this case
+
+		} // the array is not full
+		else numEntries++;
+
 		// Locate the place that the new (high score) entry e belongs
 		int i = numEntries - 1;
-		for (; (i >= 1) && (newScore > entries[i - 1].getScore()); i--)
+
+		// TODO: Deve ser de forma crescente
+		for (; (i >= 1) && (newScore < entries[i - 1].getScore()); i--)
 			entries[i] = entries[i - 1]; // move entry i one to the right
+
 		entries[i] = e; // add the new score to entries
 		return true;
 	}
 
 	/** Remove and return the high score at index i */
-	public GameEntry remove(int i) throws IndexOutOfBoundsException {
+	public int remove(int i) throws IndexOutOfBoundsException {
 		if ((i < 0) || (i > numEntries))
 			throw new IndexOutOfBoundsException("Invalid index: " + i);
 		GameEntry temp = entries[i]; // temporarily save the object to be removed
 		for (int j = i; j < numEntries - 1; j++)
 			// count up from i (not down)
 			entries[j] = entries[j + 1]; // move one cell to the left
-		entries[numEntries - 1] = null; // null out the old last score
+		entries[numEntries - 1] = null;  // null out the old last score
 		numEntries--;
-		return temp; // return the removed object
+		return temp.getScore(); // return the removed object
 	}
 
 	/** Returns the capacity of the collection */
@@ -64,5 +68,9 @@ public class ScoresBuggedImpl implements Scores {
 	/** Returns the number of scores currently stored on the collection */
 	public int getNumElements() {
 		return (numEntries);
+	}
+	
+	public GameEntry[] getEntries() {
+		return entries;
 	}
 }

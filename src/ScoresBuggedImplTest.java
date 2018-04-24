@@ -27,7 +27,7 @@ public class ScoresBuggedImplTest {
 		assertNotNull("Objeto não deve ser nulo: ", scoreBuggedImpl);
 		assertNotSame("Objetos não devem ser iguais: ", scoreBugged, scoreBuggedImpl);
 	}
-
+	
 	@Test
 	public void testAdd() {
 		boolean success = false;
@@ -36,7 +36,7 @@ public class ScoresBuggedImplTest {
 		gameEntry = new GameEntry("Gabriel",9);
 		success = scoreBugged.add(gameEntry);
 		assertTrue("Quinto elemento adicionado: ", success);
-
+		
 		// Adiciona o maior scores
 		gameEntry = new GameEntry("Maria",20);
 		success = scoreBugged.add(gameEntry);
@@ -47,14 +47,29 @@ public class ScoresBuggedImplTest {
 		success = scoreBugged.add(gameEntry);
 		assertFalse("Menor scores não deve ser adicionado: ",success);
 	}
-	
+
+	@Test
+	public void testAddAndGetCapacity() {
+		// Tamanho da lista
+		assertEquals("Tamanho da  lista deve ser 4: ", 4, scoreBugged.getNumElements());
+
+		// Inicializou com 4, add o maior score
+		GameEntry gameEntry = new GameEntry("Marcelo", 20);
+		scoreBugged.add(gameEntry);
+
+		GameEntry[] entries = scoreBugged.getEntries();
+		GameEntry lastMember = entries[scoreBugged.getNumElements()-1];
+
+		assertEquals(gameEntry, lastMember);
+	}
+
 	@Test
 	public void testRemove() {
 		int numElements = scoreBugged.getNumElements();
 		int firstElementIndex = 0;
 
-		GameEntry firstRemoved = scoreBugged.remove(firstElementIndex);
-		assertNotNull("Objeto removido não deve ser nulo: ", firstRemoved);
+		int firstRemoved = scoreBugged.remove(firstElementIndex);
+		assertNotNull("Score do objeto removido não deve ser nulo: ", firstRemoved);
 		assertEquals("Tamanho da lista deve diminuir: ", numElements-1, scoreBugged.getNumElements());
 	}
 
